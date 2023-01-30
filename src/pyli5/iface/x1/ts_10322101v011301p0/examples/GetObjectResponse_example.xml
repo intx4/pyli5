@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<X1Response xmlns="http://uri.etsi.org/03221/X1/2017/10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:exampleGenericObject="exampleGenericObject">
+  <x1ResponseMessage xsi:type="GetObjectResponse">
+    <admfIdentifier>admfID</admfIdentifier>
+    <neIdentifier>neID</neIdentifier>
+    <messageTimestamp>2017-10-06T18:46:21.247432Z</messageTimestamp>
+    <version>v1.10.1</version>
+    <x1TransactionId>3741800e-971b-4aa9-85f4-466d2b1adc7f</x1TransactionId>
+    <genericObjectResponseDetails>
+      <object xsi:type="exampleGenericObject:FooObject">
+        <objectId>3741800e-971b-4aa9-85f4-466d2b1adc7e</objectId>
+        <exampleGenericObject:Foo>1</exampleGenericObject:Foo>
+      </object>
+    </genericObjectResponseDetails>
+  </x1ResponseMessage>
+</X1Response>

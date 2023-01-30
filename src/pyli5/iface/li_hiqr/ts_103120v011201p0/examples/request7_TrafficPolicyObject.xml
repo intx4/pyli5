@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HI1Message xmlns="http://uri.etsi.org/03120/common/2019/10/Core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common" xmlns:policy="http://uri.etsi.org/03120/common/2022/07/TrafficPolicy" xmlns:etsi="http://uri.etsi.org/03280/common/2017/07" xmlns:task="http://uri.etsi.org/03120/common/2020/09/Task">
+  <Header>
+    <SenderIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>ACTOR01</UniqueIdentifier>
+    </SenderIdentifier>
+    <ReceiverIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>ACTOR02</UniqueIdentifier>
+    </ReceiverIdentifier>
+    <TransactionIdentifier>c02358b2-76cf-4ba4-a8eb-f6436ccaa8eb</TransactionIdentifier>
+    <Timestamp>2022-07-01T12:00:00.000000Z</Timestamp>
+    <Version>
+      <ETSIVersion>V1.12.1</ETSIVersion>
+      <NationalProfileOwner>XX</NationalProfileOwner>
+      <NationalProfileVersion>v1.0</NationalProfileVersion>
+    </Version>
+  </Header>
+  <Payload>
+    <RequestPayload>
+      <ActionRequests>
+        <ActionRequest>
+          <ActionIdentifier>0</ActionIdentifier>
+          <CREATE>
+            <HI1Object xsi:type="policy:TrafficRuleObject">
+              <ObjectIdentifier>f69eb93b-a85b-4ff7-abaa-6f3aead286d5</ObjectIdentifier>
+              <CountryCode>XX</CountryCode>
+              <OwnerIdentifier>ACTOR01</OwnerIdentifier>
+              <policy:Criteria>
+                <policy:Criteria>
+                  <policy:IPPolicyCriteria>
+                    <policy:SourceIPRange>
+                      <etsi:IPv4CIDR>203.0.113.0/24</etsi:IPv4CIDR>
+                    </policy:SourceIPRange>
+                  </policy:IPPolicyCriteria>
+                </policy:Criteria>
+              </policy:Criteria>
+              <policy:Action>
+                <common:Owner>ETSI</common:Owner>
+                <common:Name>PolicyAction</common:Name>
+                <common:Value>PDSR</common:Value>
+              </policy:Action>
+            </HI1Object>
+          </CREATE>
+        </ActionRequest>
+        <ActionRequest>
+          <ActionIdentifier>1</ActionIdentifier>
+          <CREATE>
+            <HI1Object xsi:type="policy:TrafficPolicyObject">
+              <ObjectIdentifier>55e25c0a-787b-4049-b7fb-518a13a9483b</ObjectIdentifier>
+              <CountryCode>XX</CountryCode>
+              <OwnerIdentifier>ACTOR01</OwnerIdentifier>
+              <policy:TrafficPolicyName>Template Rule 1</policy:TrafficPolicyName>
+              <policy:TrafficRules>
+                <policy:TrafficRuleReference>
+                  <policy:Order>1</policy:Order>
+                  <policy:ObjectIdentifier>f69eb93b-a85b-4ff7-abaa-6f3aead286d5</policy:ObjectIdentifier>
+                </policy:TrafficRuleReference>
+              </policy:TrafficRules>
+            </HI1Object>
+          </CREATE>
+        </ActionRequest>
+        <ActionRequest>
+          <ActionIdentifier>1</ActionIdentifier>
+          <UPDATE>
+            <HI1Object xsi:type="task:LITaskObject">
+              <ObjectIdentifier>2b36a78b-b628-416d-bd22-404e68a0cd36</ObjectIdentifier>
+              <task:ListOfTrafficPolicyReferences>
+                <task:TrafficPolicyReference>
+                  <task:Order>1</task:Order>
+                  <task:ObjectIdentifier>f69eb93b-a85b-4ff7-abaa-6f3aead286d5</task:ObjectIdentifier>
+                </task:TrafficPolicyReference>
+              </task:ListOfTrafficPolicyReferences>
+            </HI1Object>
+          </UPDATE>
+        </ActionRequest>
+      </ActionRequests>
+    </RequestPayload>
+  </Payload>
+</HI1Message>

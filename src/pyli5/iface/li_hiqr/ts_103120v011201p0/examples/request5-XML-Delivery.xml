@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HI1Message xmlns="http://uri.etsi.org/03120/common/2019/10/Core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://uri.etsi.org/03120/common/2020/09/Task" xmlns:delivery="http://uri.etsi.org/03120/common/2019/10/Delivery" xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common">
+  <Header>
+    <SenderIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>ACTOR02</UniqueIdentifier>
+    </SenderIdentifier>
+    <ReceiverIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>ACTOR01</UniqueIdentifier>
+    </ReceiverIdentifier>
+    <TransactionIdentifier>8854cfad-44ac-43b8-99ae-530b690b43da</TransactionIdentifier>
+    <Timestamp>2019-09-30T13:37:37.000000Z</Timestamp>
+    <Version>
+      <ETSIVersion>V1.12.1</ETSIVersion>
+      <NationalProfileOwner>XX</NationalProfileOwner>
+      <NationalProfileVersion>v1.0</NationalProfileVersion>
+    </Version>
+  </Header>
+  <Payload>
+    <RequestPayload>
+      <ActionRequests>
+        <ActionRequest>
+          <ActionIdentifier>0</ActionIdentifier>
+          <DELIVER>
+            <Identifier>71ff52ca-bcea-4fa3-b34e-1b89dcfb0d9e</Identifier>
+            <HI1Object xsi:type="delivery:DeliveryObject">
+              <ObjectIdentifier>71ff52ca-bcea-4fa3-b34e-1b89dcfb0d9e</ObjectIdentifier>
+              <AssociatedObjects>
+                <AssociatedObject>2b36a78b-b628-416d-bd22-404e68a0cd36</AssociatedObject>
+              </AssociatedObjects>
+              <delivery:Reference>
+                <delivery:LDID>XX-ACTOR01-1234</delivery:LDID>
+              </delivery:Reference>
+              <delivery:DeliveryID>d1079830-8e9a-4731-8fb7-36b9b961eb72</delivery:DeliveryID>
+              <delivery:SequenceNumber>1</delivery:SequenceNumber>
+              <delivery:LastSequence>true</delivery:LastSequence>
+              <delivery:Manifest>
+                <delivery:ExternalSchema>
+                  <delivery:ManifestID>http://FooServiceSchema.example.com/schema/v1.1.1/</delivery:ManifestID>
+                  <delivery:ManifestContents>
+                    <delivery:XMLSchema>
+                      <delivery:schema targetNamespace="http://FooServiceSchema.example.com/schema/v1.1.1/"
+                          elementFormDefault="qualified"
+                          xmlns="http://FooServiceSchema.example.com/schema/v1.1.1/"
+                          xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:element name="FooItem" type="FooItem"></xs:element>
+                        <xs:complexType name="FooItem">
+                          <xs:sequence>
+                            <xs:element name="item1" type="ItemType"></xs:element>
+                            <xs:element name="item2" type="ItemType"></xs:element>
+                            <xs:element name="item3" type="ItemType"></xs:element>
+                          </xs:sequence>
+                        </xs:complexType>
+                        <xs:simpleType name="ItemType">
+                          <xs:restriction base="xs:string">
+                            <xs:enumeration value="Foo"></xs:enumeration>
+                            <xs:enumeration value="Bar"></xs:enumeration>
+                            <xs:enumeration value="Baz"></xs:enumeration>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </delivery:schema>
+                    </delivery:XMLSchema>
+                  </delivery:ManifestContents>
+                </delivery:ExternalSchema>
+              </delivery:Manifest>
+              <delivery:Delivery>
+                <delivery:XMLData>
+                  <FooItem xmlns="http://FooServiceSchema.example.com/schema/v1.1.1/">
+                    <item1>Foo</item1>
+                    <item2>Bar</item2>
+                    <item3>Baz</item3>
+                  </FooItem>
+                </delivery:XMLData>
+              </delivery:Delivery>
+            </HI1Object>
+          </DELIVER>
+        </ActionRequest>
+      </ActionRequests>
+    </RequestPayload>
+  </Payload>
+</HI1Message>

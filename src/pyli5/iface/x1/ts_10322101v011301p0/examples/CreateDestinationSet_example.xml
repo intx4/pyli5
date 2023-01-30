@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<X1Request xmlns="http://uri.etsi.org/03221/X1/2017/10"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:destinationSet="http://uri.etsi.org/03221/X1/2017/10/DestinationSet">
+	<x1RequestMessage xsi:type="CreateDestinationRequest">
+		<admfIdentifier>admfID</admfIdentifier>
+		<neIdentifier>neID</neIdentifier>
+		<messageTimestamp>2022-02-16T18:46:21.247432Z</messageTimestamp>
+		<version>v1.11.1</version>
+		<x1TransactionId>7fa872e0-4bc7-4a98-a416-5f22b3de1dca</x1TransactionId>
+		<destinationDetails>
+			<dId>44b739c4-73f0-48d5-8d6a-3576ab100141</dId>
+			<deliveryType>X2andX3</deliveryType>
+			<deliveryAddress>
+				<ipAddressAndPort>
+					<address xmlns="http://uri.etsi.org/03280/common/2017/07">
+						<IPv4Address>203.0.113.1</IPv4Address>
+					</address>
+					<port xmlns="http://uri.etsi.org/03280/common/2017/07">
+						<TCPPort>9999</TCPPort>
+					</port>
+				</ipAddressAndPort>
+			</deliveryAddress>
+		</destinationDetails>
+	</x1RequestMessage>
+	<x1RequestMessage xsi:type="CreateDestinationRequest">
+		<admfIdentifier>admfID</admfIdentifier>
+		<neIdentifier>neID</neIdentifier>
+		<messageTimestamp>2022-02-16T18:46:21.247432Z</messageTimestamp>
+		<version>v1.11.1</version>
+		<x1TransactionId>8286e40c-0b4b-4d4c-94f0-1e7ab8489e44</x1TransactionId>
+		<destinationDetails>
+			<dId>36adec69-e0f0-4a41-8e85-66bbe12c5a60</dId>
+			<deliveryType>X2andX3</deliveryType>
+			<deliveryAddress>
+				<ipAddressAndPort>
+					<address xmlns="http://uri.etsi.org/03280/common/2017/07">
+						<IPv4Address>203.0.113.2</IPv4Address>
+					</address>
+					<port xmlns="http://uri.etsi.org/03280/common/2017/07">
+						<TCPPort>9999</TCPPort>
+					</port>
+				</ipAddressAndPort>
+			</deliveryAddress>
+		</destinationDetails>
+	</x1RequestMessage>
+	<x1RequestMessage xsi:type="CreateObjectRequest">
+    <admfIdentifier>admfID</admfIdentifier>
+    <neIdentifier>neID</neIdentifier>
+    <messageTimestamp>2022-02-16T18:46:21.247432Z</messageTimestamp>
+    <version>v1.11.1</version>
+    <x1TransactionId>7afbf8e3-7699-4008-ac1a-4475ed50c14b</x1TransactionId>
+    <createObject xsi:type="destinationSet:DestinationSetDetails">
+      <objectId>30fbde5e-3195-4a22-b3e9-15e1d60d0528</objectId>
+			<destinationSet:friendlyName>My First Destination Set</destinationSet:friendlyName>
+			<destinationSet:listOfAssociatedDIDs>
+				<destinationSet:AssociatedDID>
+					<destinationSet:dId>44b739c4-73f0-48d5-8d6a-3576ab100141</destinationSet:dId>
+					<destinationSet:preference>1</destinationSet:preference>
+				</destinationSet:AssociatedDID>
+				<destinationSet:AssociatedDID>
+					<destinationSet:dId>36adec69-e0f0-4a41-8e85-66bbe12c5a60</destinationSet:dId>
+					<destinationSet:preference>2</destinationSet:preference>
+				</destinationSet:AssociatedDID>
+			</destinationSet:listOfAssociatedDIDs>
+			<destinationSet:destinationSetType>Redundant</destinationSet:destinationSetType>
+    </createObject>
+  </x1RequestMessage>
+	<x1RequestMessage xsi:type="ActivateTaskRequest">
+		<admfIdentifier>admfID</admfIdentifier>
+		<neIdentifier>neID</neIdentifier>
+		<messageTimestamp>2022-02-16T18:46:21.247432Z</messageTimestamp>
+		<version>v1.11.1</version>
+		<x1TransactionId>4afef6be-5252-41cb-9275-123d308deb50</x1TransactionId>
+		<taskDetails>
+			<xId>1d7d7eb7-e0b9-4a5c-827a-bc3639d48124</xId>
+			<targetIdentifiers>
+				<targetIdentifier>
+					<e164Number>6125550123</e164Number>
+				</targetIdentifier>
+			</targetIdentifiers>
+			<deliveryType>X2andX3</deliveryType>
+			<listOfDIDs>
+				<dSId>30fbde5e-3195-4a22-b3e9-15e1d60d0528</dSId>
+			</listOfDIDs>
+		</taskDetails>
+	</x1RequestMessage>
+</X1Request>

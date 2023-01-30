@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" ?>
+<HI1Message xmlns="http://uri.etsi.org/03120/common/2019/10/Core" xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common" xmlns:task="http://uri.etsi.org/03120/common/2020/09/Task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Header>
+    <SenderIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>Sender</UniqueIdentifier>
+    </SenderIdentifier>
+    <ReceiverIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>Receiver</UniqueIdentifier>
+    </ReceiverIdentifier>
+    <TransactionIdentifier>d442c58c-d5e1-4fd9-90ec-9c228ad947f1</TransactionIdentifier>
+    <Timestamp>2020-09-22T08:06:17.025833Z</Timestamp>
+    <Version>
+      <ETSIVersion>V1.12.1</ETSIVersion>
+      <NationalProfileOwner>XX</NationalProfileOwner>
+      <NationalProfileVersion>v1.1.1</NationalProfileVersion>
+    </Version>
+  </Header>
+  <Payload>
+    <RequestPayload>
+      <ActionRequests>
+        <ActionRequest>
+          <ActionIdentifier>1</ActionIdentifier>
+          <CREATE>
+            <HI1Object xsi:type="task:LITaskObject">
+              <ObjectIdentifier>cd3994b1-e5f3-4b59-a852-5fecd02bd247</ObjectIdentifier>
+              <task:ApprovalDetails>
+                <common:ApprovalDescription>Single Approval</common:ApprovalDescription>
+              </task:ApprovalDetails>
+            </HI1Object>
+          </CREATE>
+        </ActionRequest>
+        <ActionRequest>
+          <ActionIdentifier>2</ActionIdentifier>
+          <CREATE>
+            <HI1Object xsi:type="task:LITaskObject">
+              <ObjectIdentifier>64e8681a-a4de-4dea-9686-4a2a15e54786</ObjectIdentifier>
+              <task:ApprovalDetails>
+                <common:ApprovalDescription>First of two approvals</common:ApprovalDescription>
+              </task:ApprovalDetails>
+              <task:ApprovalDetails>
+                <common:ApprovalDescription>Second of two approvals</common:ApprovalDescription>
+              </task:ApprovalDetails>
+            </HI1Object>
+          </CREATE>
+        </ActionRequest>
+      </ActionRequests>
+    </RequestPayload>
+  </Payload>
+</HI1Message>

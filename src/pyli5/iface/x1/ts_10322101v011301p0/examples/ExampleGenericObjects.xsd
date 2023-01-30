@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="exampleGenericObject"
+           xmlns:x1="http://uri.etsi.org/03221/X1/2017/10"
+           targetNamespace="exampleGenericObject" elementFormDefault="qualified">
+  <xs:import namespace="http://uri.etsi.org/03221/X1/2017/10"/>
+  
+  <xs:complexType name="FooObject">
+    <xs:complexContent>
+      <xs:extension base="x1:GenericObject">
+        <xs:sequence>
+          <xs:element name="Foo" type="xs:int"></xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="FooStatus">
+    <xs:complexContent>
+      <xs:extension base="x1:GenericObjectStatus">
+        <xs:sequence>
+          <xs:element name="FooStatus" type="xs:string"></xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BarObject">
+    <xs:complexContent>
+      <xs:extension base="x1:GenericObject">
+        <xs:sequence>
+          <xs:element name="Bar" type="xs:string"></xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+</xs:schema>

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<X1Request xmlns="http://uri.etsi.org/03221/X1/2017/10" 
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:example="exampleGenericObject">
+  <x1RequestMessage xsi:type="CreateObjectRequest">
+    <admfIdentifier>admfID</admfIdentifier>
+    <neIdentifier>neID</neIdentifier>
+    <messageTimestamp>2017-10-06T18:46:21.247432Z</messageTimestamp>
+    <version>v1.10.1</version>
+    <x1TransactionId>3741800e-971b-4aa9-85f4-466d2b1adc7f</x1TransactionId>
+    <createObject xsi:type="example:FooObject">
+      <objectId>3741800e-971b-4aa9-85f4-466d2b1adc7e</objectId>
+      <example:Foo>1</example:Foo>
+    </createObject>
+  </x1RequestMessage>
+</X1Request>

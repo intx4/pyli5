@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HI1Message xmlns="http://uri.etsi.org/03120/common/2019/10/Core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common" xmlns:task="http://uri.etsi.org/03120/common/2020/09/Task" xmlns:auth="http://uri.etsi.org/03120/common/2020/09/Authorisation" xmlns:doc="http://uri.etsi.org/03120/common/2020/09/Document">
+  <Header>
+    <SenderIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>ACTOR01</UniqueIdentifier>
+    </SenderIdentifier>
+    <ReceiverIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>ACTOR02</UniqueIdentifier>
+    </ReceiverIdentifier>
+    <TransactionIdentifier>69353ac0-9582-4c71-b162-86259c99de20</TransactionIdentifier>
+    <Timestamp>2015-09-01T12:02:00.000000Z</Timestamp>
+    <Version>
+      <ETSIVersion>V1.12.1</ETSIVersion>
+      <NationalProfileOwner>XX</NationalProfileOwner>
+      <NationalProfileVersion>v1.0</NationalProfileVersion>
+    </Version>
+  </Header>
+  <Payload>
+    <RequestPayload>
+      <ActionRequests>
+          <ActionRequest>
+            <ActionIdentifier>0</ActionIdentifier>
+            <CREATE>
+              <HI1Object xsi:type="doc:DocumentObject">
+                <ObjectIdentifier>4193f541-5e19-468e-b4a3-1c636ce115e9</ObjectIdentifier>
+                <CountryCode>XX</CountryCode>
+                <OwnerIdentifier>ACTOR01</OwnerIdentifier>
+                <doc:DocumentReference>W000001</doc:DocumentReference>
+                <doc:DocumentTimespan>
+                  <doc:StartTime>2015-09-01T12:00:00Z</doc:StartTime>
+                  <doc:EndTime>2015-12-01T12:00:00Z</doc:EndTime>
+                </doc:DocumentTimespan>
+                <doc:DocumentType>
+                  <common:Owner>ETSI</common:Owner>
+                  <common:Name>DocumentType</common:Name>
+                  <common:Value>Warrant</common:Value>
+                </doc:DocumentType>
+                <doc:DocumentSignature>
+                  <common:ApproverDetails>
+                    <common:ApproverName>John Doe</common:ApproverName>
+                    <common:ApproverContactDetails>
+                      <common:ApproverEmailAddress>john.doe@example.com</common:ApproverEmailAddress>
+                      <common:ApproverPhoneNumber>442079460223</common:ApproverPhoneNumber>
+                    </common:ApproverContactDetails>
+                    <common:ApproverContactDetails>
+                      <common:ApproverAlternateName>Jane Doe</common:ApproverAlternateName>
+                      <common:ApproverEmailAddress>jane.doe@example.com</common:ApproverEmailAddress>
+                      <common:ApproverPhoneNumber>442079461110</common:ApproverPhoneNumber>
+                    </common:ApproverContactDetails>
+                  </common:ApproverDetails>
+                  <common:ApprovalTimestamp>2015-09-01T12:00:00Z</common:ApprovalTimestamp>
+                </doc:DocumentSignature>
+              </HI1Object>
+            </CREATE>
+          </ActionRequest>
+      </ActionRequests>
+    </RequestPayload>
+  </Payload>
+</HI1Message>

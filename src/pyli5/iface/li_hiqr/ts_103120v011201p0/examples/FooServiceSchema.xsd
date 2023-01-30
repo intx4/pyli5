@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://FooServiceSchema.example.com/schema/v1.1.1/"
+    elementFormDefault="qualified"
+    xmlns="http://FooServiceSchema.example.com/schema/v1.1.1/"
+    xmlns:mstns="http://tempuri.org/XMLSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+  <xs:element name="FooItem" type="FooItem"></xs:element>
+
+  <xs:complexType name="FooItem">
+    <xs:sequence>
+      <xs:element name="item1" type="ItemType"></xs:element>
+      <xs:element name="item2" type="ItemType"></xs:element>
+      <xs:element name="item3" type="ItemType"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="ItemType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Foo"></xs:enumeration>
+      <xs:enumeration value="Bar"></xs:enumeration>
+      <xs:enumeration value="Baz"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

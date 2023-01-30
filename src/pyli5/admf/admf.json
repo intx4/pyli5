@@ -1,0 +1,28 @@
+{
+  "admf": {
+    "licf": {
+      "h1_address": "LIPF_H1_ADDRESS",
+      "h1_port": "LIPF_H1_PORT"
+    },
+    "lipf": {
+      "admf_id": "ADMF_ID",
+      "ief_info": {
+        "xem_addr": "IEF_XEM_ADDR",
+        "xem_port": "IEF_XEM_PORT",
+        "xem_url": "IEF_XEM_URL",
+        "xem_id": "IEF_XEM_ID"
+      },
+      "icf_info":{
+        "xer_addr": "ICF_XER_ADDR",
+        "xer_port": "ICF_XER_PORT"
+      }
+    },
+    "iqf": {
+      "admf_id": "ADMF_ID",
+      "hiqr_addr": "IQF_HIQR_ADDR",
+      "hiqr_port": "IQF_HIQR_PORT",
+      "icf_xqr_addr": "ICF_XQR_ADDR",
+      "icf_xqr_port": "ICF_XQR_PORT"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<ns1:X1Response xmlns:ns1="http://uri.etsi.org/03221/X1/2017/10" xmlns:ns2="http://uri.etsi.org/03280/common/2017/07" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns1:x1ResponseMessage xsi:type="ns1:GetAllDetailsResponse">
+    <ns1:admfIdentifier>admfID</ns1:admfIdentifier>
+    <ns1:neIdentifier>neID</ns1:neIdentifier>
+    <ns1:messageTimestamp>2017-10-06T18:46:21.496743Z</ns1:messageTimestamp>
+    <ns1:version>v1.6.1</ns1:version>
+    <ns1:x1TransactionId>bfd0c982-b7d6-4a8e-80a0-89dab964aafd</ns1:x1TransactionId>
+    <ns1:neStatusDetails>
+      <ns1:neStatus>OK</ns1:neStatus>
+      <ns1:listOfFaults/>
+    </ns1:neStatusDetails>
+    <ns1:listOfTaskResponseDetails>
+      <ns1:taskResponseDetails>
+        <ns1:taskDetails>
+          <ns1:xId>29f28e1c-f230-486a-a860-f5a784ab9172</ns1:xId>
+          <ns1:targetIdentifiers>
+            <ns1:targetIdentifier>
+              <ns1:e164Number>447700900000</ns1:e164Number>
+            </ns1:targetIdentifier>
+          </ns1:targetIdentifiers>
+          <ns1:deliveryType>X2andX3</ns1:deliveryType>
+          <ns1:listOfDIDs>
+            <ns1:dId>1eb4406a-8b28-41fd-8f0f-e1a0a3eb5ff9</ns1:dId>
+          </ns1:listOfDIDs>
+        </ns1:taskDetails>
+        <ns1:taskStatus>
+          <ns1:provisioningStatus>complete</ns1:provisioningStatus>
+          <ns1:listOfFaults/>
+        </ns1:taskStatus>
+      </ns1:taskResponseDetails>
+    </ns1:listOfTaskResponseDetails>
+    <ns1:listOfDestinationResponseDetails>
+      <ns1:destinationResponseDetails>
+        <ns1:destinationDetails>
+          <ns1:dId>b0ce308c-aa17-42bd-a27b-287bcb5b3468</ns1:dId>
+          <ns1:deliveryType>X2andX3</ns1:deliveryType>
+          <ns1:deliveryAddress>
+            <ns1:ipAddressAndPort>
+              <ns2:address>
+                <ns2:IPv4Address>192.0.2.2</ns2:IPv4Address>
+              </ns2:address>
+              <ns2:port>
+                <ns2:TCPPort>12345</ns2:TCPPort>
+              </ns2:port>
+            </ns1:ipAddressAndPort>
+          </ns1:deliveryAddress>
+        </ns1:destinationDetails>
+        <ns1:destinationStatus>
+          <ns1:destinationDeliveryStatus>activeAndWorking</ns1:destinationDeliveryStatus>
+          <ns1:listOfFaults/>
+        </ns1:destinationStatus>
+      </ns1:destinationResponseDetails>
+    </ns1:listOfDestinationResponseDetails>
+  </ns1:x1ResponseMessage>
+</ns1:X1Response>

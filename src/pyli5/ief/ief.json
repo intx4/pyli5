@@ -1,0 +1,14 @@
+{
+  "xem": {
+  "ne_id": "IEF_NE_ID",
+  "ne_ip": "IEF_NE_IP",
+  "ne_port": "IEF_XEM_PORT",
+  "ne_url": "IEF_XEM_URL"
+},
+  "pool_interval" : 1.0,
+  "poi": {
+    "log_watcher" : {
+      "log": "IEF_POI_LOG_PATH"
+    }
+  }
+}

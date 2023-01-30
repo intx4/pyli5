@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:etsi="http://uri.etsi.org/03280/common/2017/07"
+           xmlns="http://uri.etsi.org/03120/common/2016/02/Common"
+           targetNamespace="http://uri.etsi.org/03120/common/2016/02/Common"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://uri.etsi.org/03280/common/2017/07" schemaLocation="TS_103_280_01.xsd"/>
+
+	<xs:simpleType name="ETSIVersion">
+		<xs:restriction base="etsi:ShortString">
+			<xs:pattern value="V\d+\.\d+\.\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DictionaryEntry">
+		<xs:sequence>
+			<xs:element name="Owner" type="etsi:ShortString"/>
+			<xs:element name="Name" type="etsi:ShortString"/>
+			<xs:element name="Value" type="etsi:ShortString"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApprovalDetails">
+		<xs:sequence>
+			<xs:element name="ApprovalType" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalDescription" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalReference" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApproverDetails" type="ApproverDetails" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalTimestamp" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalIsEmergency" type="xs:boolean" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalDigitalSignature" type="ApprovalDigitalSignature" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalNationalDetails" type="ApprovalNationalDetails" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApproverDetails">
+		<xs:sequence>
+			<xs:element name="ApproverName" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApproverRole" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApproverIdentity" type="ApproverIdentity" minOccurs="0"></xs:element>
+			<xs:element name="ApproverContactDetails" type="ApproverContactDetails" minOccurs="0" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApproverIdentity">
+		<xs:choice>
+			<xs:element name="NationalApproverIdentity" type="NationalApproverIdentity"></xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ApproverContactDetails">
+		<xs:sequence>
+			<xs:element name="ApproverAlternateName" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApproverEmailAddress" type="etsi:InternationalizedEmailAddress" minOccurs="0"></xs:element>
+			<xs:element name="ApproverPhoneNumber" type="etsi:InternationalE164" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NationalApproverIdentity" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApprovalDigitalSignature">
+		<xs:choice>
+			<xs:element name="NationalDigitalSignature" type="NationalDigitalSignature"></xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ApprovalNationalDetails" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalDigitalSignature" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

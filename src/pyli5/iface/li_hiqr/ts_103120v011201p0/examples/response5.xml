@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HI1Message xmlns="http://uri.etsi.org/03120/common/2019/10/Core"
+            xmlns:xs="xmlns:xs=http://www.w3.org/2001/XMLSchema"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:task="http://uri.etsi.org/03120/common/2020/09/Task"
+            xmlns:delivery="http://uri.etsi.org/03120/common/2019/10/Delivery"
+            xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common">
+  <Header>
+    <SenderIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>ACTOR02</UniqueIdentifier>
+    </SenderIdentifier>
+    <ReceiverIdentifier>
+      <CountryCode>XX</CountryCode>
+      <UniqueIdentifier>ACTOR01</UniqueIdentifier>
+    </ReceiverIdentifier>
+    <TransactionIdentifier>8854cfad-44ac-43b8-99ae-530b690b43da</TransactionIdentifier>
+    <Timestamp>2019-09-30T13:37:37.000000Z</Timestamp>
+    <Version>
+      <ETSIVersion>V1.12.1</ETSIVersion>
+      <NationalProfileOwner>XX</NationalProfileOwner>
+      <NationalProfileVersion>v1.0</NationalProfileVersion>
+    </Version>
+  </Header>
+  <Payload>
+    <ResponsePayload>
+      <ActionResponses>
+        <ActionResponse>
+          <ActionIdentifier>0</ActionIdentifier>
+          <DELIVERResponse>
+            <Identifier>71ff52ca-bcea-4fa3-b34e-1b89dcfb0d9e</Identifier>
+          </DELIVERResponse>
+        </ActionResponse>
+      </ActionResponses>
+    </ResponsePayload>
+  </Payload>
+</HI1Message>

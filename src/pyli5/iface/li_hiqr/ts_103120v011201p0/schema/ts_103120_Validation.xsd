@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:etsi="http://uri.etsi.org/03280/common/2017/07"
+           xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common"
+           xmlns:core="http://uri.etsi.org/03120/common/2019/10/Core"
+           xmlns:delivery="http://uri.etsi.org/03120/common/2019/10/Delivery"
+		   xmlns:document="http://uri.etsi.org/03120/common/2020/09/Document"
+		   xmlns:authorisation="http://uri.etsi.org/03120/common/2020/09/Authorisation"
+		   xmlns:task="http://uri.etsi.org/03120/common/2020/09/Task"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://uri.etsi.org/03120/common/2016/02/Common" schemaLocation="ts_103120_Common.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03120/common/2019/10/Core" schemaLocation="ts_103120_Core.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03280/common/2017/07" schemaLocation="TS_103_280_01.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03120/common/2019/10/Delivery" schemaLocation="ts_103120_Delivery.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03120/common/2020/09/Document" schemaLocation="ts_103120_Document.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03120/common/2020/09/Task" schemaLocation="ts_103120_Task.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03120/common/2020/09/Authorisation" schemaLocation="ts_103120_Authorisation.xsd"/>
+</xs:schema>

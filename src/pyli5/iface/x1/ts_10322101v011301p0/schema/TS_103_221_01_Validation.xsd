@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:x1="http://uri.etsi.org/03221/X1/2017/10"
+           xmlns:etsi103280="http://uri.etsi.org/03280/common/2017/07"
+           xmlns:hashedID="http://uri.etsi.org/03221/X1/2017/10/HashedID"
+           xmlns:destinationSet="http://uri.etsi.org/03221/X1/2017/10/DestinationSet"
+           xmlns:identity="urn:3GPP:ns:li:3GPPIdentityExtensions:r17:v3"
+           elementFormDefault="qualified" version="1.12.1">
+	<xs:import namespace="http://uri.etsi.org/03221/X1/2017/10" schemaLocation="TS_103_221_01_v011301.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03280/common/2017/07" schemaLocation="TS_103_280_01.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03221/X1/2017/10/HashedID" schemaLocation="TS_103_221_01_HashedID.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03221/X1/2017/10/DestinationSet" schemaLocation="TS_103_221_01_DestinationSet.xsd"/>
+	<xs:import namespace="urn:3GPP:ns:li:3GPPIdentityExtensions:r17:v3" schemaLocation="3GPPIdentityExtensions_r17_v3.xsd"/>
+</xs:schema>

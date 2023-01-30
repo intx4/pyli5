@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:etsi="http://uri.etsi.org/03280/common/2017/07"
+           xmlns="http://uri.etsi.org/03120/common/2016/02/Common"
+           targetNamespace="http://uri.etsi.org/03120/common/2016/02/Common"
+           elementFormDefault="unqualified"
+           attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://uri.etsi.org/03280/common/2017/07"/>
+
+	<xs:simpleType name="ETSIVersion">
+		<xs:restriction base="etsi:ShortString">
+			<xs:pattern value="V\d+\.\d+\.\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="DictionaryEntry">
+		<xs:sequence>
+			<xs:element name="Owner" type="etsi:ShortString"/>
+			<xs:element name="Name" type="etsi:ShortString"/>
+			<xs:element name="Value" type="etsi:ShortString"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApprovalDetails">
+		<xs:sequence>
+			<xs:element name="ApprovalType" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalDescription" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalReference" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApproverDetails" type="ApproverDetails" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalTimestamp" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalIsEmergency" type="xs:boolean" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalDigitalSignature" type="ApprovalDigitalSignature" minOccurs="0"></xs:element>
+			<xs:element name="ApprovalNationalDetails" type="ApprovalNationalDetails" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApproverDetails">
+		<xs:sequence>
+			<xs:element name="ApproverName" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApproverRole" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApproverIdentity" type="ApproverIdentity" minOccurs="0"></xs:element>
+			<xs:element name="ApproverContactDetails" type="ApproverContactDetails" minOccurs="0" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApproverIdentity">
+		<xs:choice>
+			<xs:element name="NationalApproverIdentity" type="NationalApproverIdentity"></xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ApproverContactDetails">
+		<xs:sequence>
+			<xs:element name="ApproverAlternateName" type="etsi:LongString" minOccurs="0"></xs:element>
+			<xs:element name="ApproverEmailAddress" type="etsi:InternationalizedEmailAddress" minOccurs="0"></xs:element>
+			<xs:element name="ApproverPhoneNumber" type="etsi:InternationalE164" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NationalApproverIdentity" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ApprovalDigitalSignature">
+		<xs:choice>
+			<xs:element name="NationalDigitalSignature" type="NationalDigitalSignature"></xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ApprovalNationalDetails" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalDigitalSignature" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    	
+	<xs:element name="HI1Message" type="HI1Message"/>
+	<xs:complexType name="HI1Message">
+		<xs:sequence>
+			<xs:element name="Header" type="MessageHeader"/>
+			<xs:element name="Payload" type="MessagePayload"/>
+			<xs:element name="Signature" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MessageHeader">
+		<xs:sequence>
+			<xs:element name="SenderIdentifier" type="EndpointID"/>
+			<xs:element name="ReceiverIdentifier" type="EndpointID"/>
+			<xs:element name="TransactionIdentifier" type="etsi:UUID"/>
+			<xs:element name="Timestamp" type="etsi:QualifiedMicrosecondDateTime"/>
+			<xs:element name="Version" type="Version"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Version">
+		<xs:sequence>
+			<xs:element name="ETSIVersion" type="ETSIVersion"/>
+			<xs:element name="NationalProfileOwner" type="etsi:ShortString"/>
+			<xs:element name="NationalProfileVersion" type="etsi:ShortString"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EndpointID">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+			<xs:element name="UniqueIdentifier" type="etsi:LongString"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MessagePayload">
+		<xs:choice>
+			<xs:element name="RequestPayload" type="RequestPayload"/>
+			<xs:element name="ResponsePayload" type="ResponsePayload"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="RequestPayload">
+		<xs:sequence>
+			<xs:element name="ActionRequests" type="ActionRequests"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActionRequests">
+		<xs:sequence>
+			<xs:element name="ActionRequest" type="ActionRequest" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResponsePayload">
+	<xs:choice>
+		<xs:element name="ActionResponses" type="ActionResponses"/>
+		<xs:element name="ErrorInformation" type="ActionUnsuccesfulInformation"/>
+	</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ActionResponses">
+		<xs:sequence>
+			<xs:element name="ActionResponse" type="ActionResponse" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActionRequest">
+		<xs:sequence>
+			<xs:element name="ActionIdentifier" type="xs:nonNegativeInteger"/>
+			<xs:choice>
+				<xs:element name="GET" type="GETRequest"/>
+				<xs:element name="CREATE" type="CREATERequest"/>
+				<xs:element name="UPDATE" type="UPDATERequest"/>
+				<xs:element name="LIST" type="LISTRequest"/>
+				<xs:element name="DELIVER" type="DELIVERRequest"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActionResponse">
+		<xs:sequence>
+			<xs:element name="ActionIdentifier" type="xs:nonNegativeInteger"/>
+			<xs:choice>
+				<xs:element name="GETResponse" type="GETResponse"/>
+				<xs:element name="CREATEResponse" type="CREATEResponse"/>
+				<xs:element name="UPDATEResponse" type="UPDATEResponse"/>
+				<xs:element name="LISTResponse" type="LISTResponse"/>
+				<xs:element name="ErrorInformation" type="ActionUnsuccesfulInformation"/>
+				<xs:element name="DELIVERResponse" type="DELIVERResponse"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GETRequest">
+		<xs:sequence>
+			<xs:element name="Identifier" type="ObjectIdentifier"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GETResponse">
+		<xs:sequence>
+			<xs:element name="HI1Object" type="HI1Object"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CREATERequest">
+		<xs:sequence>
+			<xs:element name="HI1Object" type="HI1Object"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CREATEResponse">
+		<xs:sequence>
+			<xs:element name="Identifier" type="ObjectIdentifier"/>
+			<xs:element name="HI1Object" type="HI1Object" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UPDATERequest">
+		<xs:sequence>
+			<xs:element name="HI1Object" type="HI1Object"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UPDATEResponse">
+		<xs:sequence>
+			<xs:element name="Identifier" type="ObjectIdentifier"/>
+			<xs:element name="HI1Object" type="HI1Object" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LISTRequest">
+		<xs:sequence>
+			<xs:element name="ObjectType" type="DictionaryEntry" minOccurs="0"/>
+			<xs:element name="LastChanged" type="etsi:QualifiedDateTime" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LISTResponse">
+		<xs:sequence>
+			<xs:element name="ListResponseRecord" type="ListResponseRecord" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ListResponseRecord">
+		<xs:sequence>
+			<xs:element name="ObjectType" type="DictionaryEntry"/>
+			<xs:element name="Identifier" type="ObjectIdentifier"/>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode" minOccurs="0"/>
+			<xs:element name="OwnerIdentifier" type="etsi:ShortString" minOccurs="0"/>
+			<xs:element name="Generation" type="xs:nonNegativeInteger"/>
+			<xs:element name="ExternalIdentifier" type="etsi:LongString" minOccurs="0"/>
+			<xs:element name="LastChanged" type="etsi:QualifiedDateTime" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ActionUnsuccesfulInformation">
+		<xs:sequence>
+			<xs:element name="ErrorCode" type="xs:nonNegativeInteger"/>
+			<xs:element name="ErrorDescription" type="etsi:LongString"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DELIVERRequest">
+		<xs:sequence>
+		    <xs:element name="Identifier" type="ObjectIdentifier"/>
+			<xs:element name="HI1Object" type="HI1Object"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DELIVERResponse">
+		<xs:sequence>
+			<xs:element name="Identifier" type="ObjectIdentifier"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ObjectIdentifier">
+		<xs:restriction base="etsi:UUID"/>
+	</xs:simpleType>
+	<xs:complexType name="HI1Object" abstract="true">
+		<xs:sequence>
+			<xs:element name="ObjectIdentifier" type="ObjectIdentifier"/>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode" minOccurs="0"/>
+			<xs:element name="OwnerIdentifier" type="etsi:ShortString" minOccurs="0"/>
+			<xs:element name="Generation" type="xs:nonNegativeInteger" minOccurs="0"/>
+			<xs:element name="ExternalIdentifier" type="etsi:LongString" minOccurs="0"/>
+			<xs:element name="AssociatedObjects" type="AssociatedObjects" minOccurs="0"/>
+			<xs:element name="LastChanged" type="etsi:QualifiedDateTime" minOccurs="0"/>
+			<xs:element name="NationalHandlingParameters" type="NationalHandlingParameters" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AssociatedObjects">
+		<xs:sequence>
+			<xs:element name="AssociatedObject" type="ObjectIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalHandlingParameters" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+		</xs:sequence>
+	</xs:complexType>
+    
+	<xs:complexType name="AuthorisationObject">
+		<xs:complexContent>
+			<xs:extension base="HI1Object">
+				<xs:sequence>
+					<xs:element name="AuthorisationReference" type="etsi:LongString" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationLegalType" type="DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationPriority" type="DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationStatus"  type="DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationDesiredStatus"  type="DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationTimespan" type="AuthorisationTimespan" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationCSPID" type="AuthorisationCSPID" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationCreationTimestamp" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationServedTimestamp" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationTerminationTimestamp" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationApprovalDetails" type="ApprovalDetails" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="AuthorisationInvalidReason" type="ActionUnsuccesfulInformation" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationFlags" type="AuthorisationFlags" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationManualInformation" type="etsi:LongString" minOccurs="0"></xs:element>
+					<xs:element name="NationalAuthorisationParameters" type="NationalAuthorisationParameters" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationJurisdiction" type="etsi:LongString" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationTypeOfCase" type="DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="AuthorisationLegalEntity" type="etsi:ShortString" minOccurs="0"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AuthorisationFlags">
+		<xs:sequence>
+			<xs:element name="AuthorisationFlag" type="DictionaryEntry" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AuthorisationTimespan">
+		<xs:sequence>
+			<xs:element name="StartTime" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+			<xs:element name="EndTime" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AuthorisationCSPID">
+		<xs:sequence>
+			<xs:element name="CSPID" type="EndpointID" minOccurs="1" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalAuthorisationParameters" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:complexType name="DocumentObject">
+		<xs:complexContent>
+			<xs:extension base="HI1Object">
+				<xs:sequence>
+					<xs:element name="DocumentReference" type="etsi:LongString" minOccurs="0"></xs:element>
+					<xs:element name="DocumentName" type="etsi:LongString" minOccurs="0"></xs:element>
+					<xs:element name="DocumentStatus" type="DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="DocumentDesiredStatus" type="DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="DocumentTimespan" type="DocumentTimespan" minOccurs="0"></xs:element>
+					<xs:element name="DocumentType" type="DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="DocumentProperties" type="DocumentProperties" minOccurs="0"></xs:element>
+					<xs:element name="DocumentBody" type="DocumentBody" minOccurs="0"></xs:element>
+					<xs:element name="DocumentSignature" type="ApprovalDetails" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="DocumentInvalidReason" type="ActionUnsuccesfulInformation" minOccurs="0"/>
+					<xs:element name="NationalDocumentParameters" type="NationalDocumentParameters" minOccurs="0"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DocumentTimespan">
+		<xs:sequence>
+			<xs:element name="StartTime" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+			<xs:element name="EndTime" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentProperties">
+		<xs:sequence>
+			<xs:element name="DocumentProperty" type="DocumentProperty" minOccurs="0" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentProperty">
+		<xs:sequence>
+			<xs:element name="PropertyType" type="DictionaryEntry"></xs:element>
+			<xs:element name="PropertyValue" type="etsi:LongString"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentBody">
+		<xs:sequence>
+			<xs:element name="Contents" type="xs:base64Binary" minOccurs="0"></xs:element>
+			<xs:element name="ContentType" type="etsi:ShortString" minOccurs="0"></xs:element>
+			<xs:element name="Checksum" type="etsi:ShortString" minOccurs="0"></xs:element>
+			<xs:element name="ChecksumType" type="etsi:ShortString" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalDocumentParameters" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+		</xs:sequence>
+	</xs:complexType>
+    
+    <xs:complexType name="DeliveryObject">
+		<xs:complexContent>
+			<xs:extension base="HI1Object">
+				<xs:sequence>
+					<xs:element name="Reference" type="Reference" minOccurs="0"/>
+					<xs:element name="DeliveryID" type="etsi:UUID" minOccurs="0"/>
+					<xs:element name="SequenceNumber" type="xs:nonNegativeInteger" minOccurs="0"/>
+					<xs:element name="LastSequence" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="Manifest" type="Manifest" minOccurs="0"/>
+					<xs:element name="Delivery" type="Delivery" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Reference">
+		<xs:choice>
+			<xs:element name="LDID" type="etsi:LDID"/>
+			<xs:element name="LIID" type="etsi:LIID"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="Manifest">
+		<xs:choice>
+			<xs:element name="Specification" type="DictionaryEntry"/>
+			<xs:element name="ExternalSchema" type="ExternalSchema"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="ExternalSchema">
+		<xs:sequence>
+			<xs:element name="ManifestID" type="etsi:LongString" minOccurs="0"/>
+			<xs:element name="ManifestContents" type="ManifestContents" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ManifestContents">
+		<xs:choice>
+			<xs:element name="BinaryData" type="EmbeddedBinaryData"/>
+			<xs:element name="XMLSchema" type="SchemaContent"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="SchemaContent">
+		<xs:sequence>
+			<xs:element name="schema" xmlns="http://www.w3.org/2001/XMLSchema"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Delivery">
+		<xs:choice>
+			<xs:element name="BinaryData" type="EmbeddedBinaryData"/>
+			<xs:element name="XMLData" type="EmbeddedXMLData"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="EmbeddedBinaryData">
+		<xs:sequence>
+			<xs:element name="Data" type="xs:base64Binary" />
+			<xs:element name="ContentType" type="etsi:ShortString" minOccurs="0"/>
+			<xs:element name="Checksum" type="etsi:ShortString" minOccurs="0"/>
+			<xs:element name="ChecksumType" type="etsi:ShortString" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EmbeddedXMLData">
+		<xs:sequence>
+		<xs:any namespace="##other" minOccurs="1" maxOccurs="unbounded"></xs:any>
+		</xs:sequence>
+	</xs:complexType>
+    
+    	<xs:complexType name="LITaskObject">
+		<xs:complexContent>
+			<xs:extension base="HI1Object">
+				<xs:sequence>
+					<xs:element name="Reference" type="etsi:LIID" minOccurs="0"/>
+					<xs:element name="Status" type="DictionaryEntry" minOccurs="0"/>
+					<xs:element name="DesiredStatus" type="DictionaryEntry" minOccurs="0"/>
+					<xs:element name="Timespan" type="TaskTimespan" minOccurs="0"/>
+					<xs:element name="TargetIdentifier" type="TargetIdentifier" minOccurs="0"/>
+					<xs:element name="DeliveryType" type="DictionaryEntry" minOccurs="0"/>
+					<xs:element name="DeliveryDetails" type="TaskDeliveryDetails" minOccurs="0"/>
+					<xs:element name="ApprovalDetails" type="ApprovalDetails" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="CSPID" type="EndpointID" minOccurs="0"/>
+					<xs:element name="HandlingProfile" type="DictionaryEntry" minOccurs="0"/>
+					<xs:element name="InvalidReason" type="ActionUnsuccesfulInformation" minOccurs="0"/>
+					<xs:element name="Flags" type="TaskFlags" minOccurs="0"/>
+					<xs:element name="NationalLITaskingParameters" type="NationalLITaskingParameters" minOccurs="0"/>
+        			<xs:element name="ListOfTrafficPolicyReferences" type="ListOfTrafficPolicyReferences" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TaskTimespan">
+		<xs:sequence>
+			<xs:element name="StartTime" type="etsi:QualifiedDateTime" minOccurs="0"/>
+			<xs:element name="EndTime" type="etsi:QualifiedDateTime" minOccurs="0"/>
+			<xs:element name="TerminationTime" type="etsi:QualifiedDateTime" minOccurs="0"/>
+			<xs:element name="ProvisioningTime" type="etsi:QualifiedDateTime" minOccurs="0"/>
+			<xs:element name="DeprovisioningTime" type="etsi:QualifiedDateTime" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TargetIdentifier">
+		<xs:sequence>
+			<xs:element name="TargetIdentifierValues" type="TargetIdentifierValues" minOccurs="0"/>
+			<xs:element name="ServiceType" type="DictionaryEntry" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TargetIdentifierValues">
+		<xs:sequence>
+			<xs:element name="TargetIdentifierValue" type="TargetIdentifierValue" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TargetIdentifierValue">
+		<xs:sequence>
+			<xs:element name="FormatType" type="FormatType"/>
+			<xs:element name="Value" type="etsi:LongString"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FormatType">
+		<xs:sequence>
+			<xs:element name="FormatOwner" type="etsi:ShortString"/>
+			<xs:element name="FormatName" type="etsi:ShortString"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TaskDeliveryDetails">
+		<xs:sequence>
+			<xs:element name="DeliveryDestination" type="DeliveryDestination" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeliveryDestination">
+		<xs:sequence>
+			<xs:element name="DeliveryAddress" type="DeliveryAddress" minOccurs="0"/>
+			<xs:element name="EncryptionDetails" type="NationalEncryptionDetails" minOccurs="0"/>
+			<xs:element name="IRIorCC" type="DictionaryEntry" minOccurs="0"/>
+			<xs:element name="HandoverFormat" type="DictionaryEntry" minOccurs="0"/>
+			<xs:element name="DeliveryProfile" type="DictionaryEntry" minOccurs="0"/>
+			<xs:element name="NationalDeliveryParameters" type="NationalDeliveryParameters" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeliveryAddress">
+		<xs:choice>
+			<xs:element name="IPv4Address" type="etsi:IPv4Address"></xs:element>
+			<xs:element name="IPv6Address" type="etsi:IPv6Address"></xs:element>
+			<xs:element name="IPAddressPort" type="etsi:IPAddressPort"></xs:element>
+			<xs:element name="IPAddressPortRange" type="etsi:IPAddressPortRange"></xs:element>
+			<xs:element name="E164Number" type="etsi:InternationalE164"></xs:element>
+			<xs:element name="FTPAddress" type="xs:anyURI"></xs:element>
+			<xs:element name="URL" type="xs:anyURI"></xs:element>
+			<xs:element name="FQDN" type="etsi:LongString"></xs:element>
+			<xs:element name="EmailAddress" type="etsi:EmailAddress"></xs:element>
+			<xs:element name="EndpointID" type="EndpointID"></xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="TaskFlags">
+		<xs:sequence>
+			<xs:element name="TaskFlag" type="DictionaryEntry" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalLITaskingParameters" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalDeliveryParameters" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalEncryptionDetails" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LDTaskObject">
+		<xs:complexContent>
+			<xs:extension base="HI1Object">
+				<xs:sequence>
+					<xs:element name="Reference" type="etsi:LDID" minOccurs="0"/>
+					<xs:element name="Status" type="DictionaryEntry" minOccurs="0"/>
+					<xs:element name="StatusReason" type="ActionUnsuccesfulInformation" minOccurs="0"/>
+					<xs:element name="DesiredStatus" type="DictionaryEntry" minOccurs="0"/>
+					<xs:element name="RequestDetails" type="RequestDetails" minOccurs="0"/>
+					<xs:element name="DeliveryDetails" type="LDDeliveryDetails" minOccurs="0"/>
+					<xs:element name="ApprovalDetails" type="ApprovalDetails" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="CSPID" type="EndpointID" minOccurs="0"/>
+					<xs:element name="HandlingProfile" type="DictionaryEntry" minOccurs="0"/>
+					<xs:element name="Flags" type="LDTaskFlags" minOccurs="0" />
+					<xs:element name="NationalLDTaskingParameters" type="NationalLDTaskingParameters" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RequestDetails">
+		<xs:sequence>
+			<xs:element name="Type" type="DictionaryEntry" minOccurs="0"/>
+			<xs:element name="StartTime" type="etsi:QualifiedDateTime" minOccurs="0"/>
+			<xs:element name="EndTime" type="etsi:QualifiedDateTime" minOccurs="0"/>
+			<xs:element name="ObservedTime" type="etsi:QualifiedDateTime" minOccurs="0"/>
+			<xs:element name="ObservedTimes" type="etsi:QualifiedDateTime" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="RequestValues" type="RequestValues" minOccurs="0"/>
+			<xs:element name="Subtype" type="RequestSubtype" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestValues">
+		<xs:sequence>
+			<xs:element name="RequestValue" type="RequestValue" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestValue">
+		<xs:sequence>
+			<xs:element name="FormatType" type="FormatType"/>
+			<xs:element name="Value" type="etsi:LongString"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RequestSubtype">
+		<xs:sequence>
+			<xs:element name="RequestSubtype" type="DictionaryEntry" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LDDeliveryDetails">
+		<xs:sequence>
+			<xs:element name="LDDeliveryDestination" type="LDDeliveryDestination" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LDDeliveryDestination">
+		<xs:sequence>
+			<xs:element name="DeliveryAddress" type="DeliveryAddress" minOccurs="0"/>
+			<xs:element name="EncryptionDetails" type="NationalEncryptionDetails" minOccurs="0"/>
+			<xs:element name="LDHandoverFormat" type="DictionaryEntry" minOccurs="0"/>
+			<xs:element name="LDDeliveryProfile" type="DictionaryEntry" minOccurs="0"/>
+			<xs:element name="NationalDeliveryParameters" type="NationalDeliveryParameters" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LDTaskFlags">
+		<xs:sequence>
+			<xs:element name="LDTaskFlag" type="DictionaryEntry" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalLDTaskingParameters" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+		</xs:sequence>
+	</xs:complexType>
+ 	<xs:complexType name="ListOfTrafficPolicyReferences">
+		<xs:sequence>
+			<xs:element name="TrafficPolicyReference" type="TrafficPolicyReference" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrafficPolicyReference">
+		<xs:sequence>
+			<xs:element name="Order" type="xs:positiveInteger" minOccurs="0"/>
+			<xs:element name="ObjectIdentifier" type="ObjectIdentifier" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

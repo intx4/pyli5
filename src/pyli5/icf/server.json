@@ -1,0 +1,9 @@
+{
+  "icf": {
+    "xer_addr" : "ICF_XER_ADDR",
+    "xer_port" : "ICF_XER_PORT",
+    "xqr_addr": "ICF_XQR_ADDR",
+    "xqr_port": "ICF_XQR_PORT",
+    "grpc_port": "GRPC_PORT"
+  }
+}

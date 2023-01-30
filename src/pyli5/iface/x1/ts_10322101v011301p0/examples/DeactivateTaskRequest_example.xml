@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<ns1:X1Request xmlns:ns1="http://uri.etsi.org/03221/X1/2017/10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns1:x1RequestMessage xsi:type="ns1:DeactivateTaskRequest">
+    <ns1:admfIdentifier>admfID</ns1:admfIdentifier>
+    <ns1:neIdentifier>neID</ns1:neIdentifier>
+    <ns1:messageTimestamp>2017-10-06T18:46:21.429594Z</ns1:messageTimestamp>
+    <ns1:version>v1.6.1</ns1:version>
+    <ns1:x1TransactionId>3da0df97-7bd5-4413-936d-74bebd7512fe</ns1:x1TransactionId>
+    <ns1:xId>29f28e1c-f230-486a-a860-f5a784ab9172</ns1:xId>
+  </ns1:x1RequestMessage>
+</ns1:X1Request>

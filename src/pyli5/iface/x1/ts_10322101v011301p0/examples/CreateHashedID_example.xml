@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<X1Request xmlns="http://uri.etsi.org/03221/X1/2017/10"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:hashedID="http://uri.etsi.org/03221/X1/2017/10/HashedID">
+  <x1RequestMessage xsi:type="CreateObjectRequest">
+    <admfIdentifier>admfID</admfIdentifier>
+    <neIdentifier>neID</neIdentifier>
+    <messageTimestamp>2017-10-06T18:46:21.247432Z</messageTimestamp>
+    <version>v1.9.1</version>
+    <x1TransactionId>f9138c05-f82e-4cf4-a1ae-ae92fed2d564</x1TransactionId>
+    <createObject xsi:type="hashedID:HashContext">
+      <objectId>30fbde5e-3195-4a22-b3e9-15e1d60d0528</objectId>
+      <hashedID:hashAlgorithm>sha-256</hashedID:hashAlgorithm>
+      <hashedID:salt>4241792fc4d3d097</hashedID:salt>
+    </createObject>
+  </x1RequestMessage>
+  <x1RequestMessage xsi:type="ActivateTaskRequest">
+    <admfIdentifier>admfID</admfIdentifier>
+    <neIdentifier>neID</neIdentifier>
+    <messageTimestamp>2017-10-06T18:46:21.247432Z</messageTimestamp>
+    <version>v1.9.1</version>
+    <x1TransactionId>f9138c05-f82e-4cf4-a1ae-ae92fed2d565</x1TransactionId>
+    <taskDetails>
+      <xId>30fbde5e-3195-4a22-b3e9-15e1d60d0529</xId>
+      <targetIdentifiers>
+        <targetIdentifier>
+          <hashedIdentifier>
+            <hashedID:hashContextID>30fbde5e-3195-4a22-b3e9-15e1d60d0528</hashedID:hashContextID>
+            <hashedID:targetIdentityType>InternationalE164</hashedID:targetIdentityType>
+            <hashedID:hashDigest>303e57c6968f308a6a7df0ef48c0e21580bc29ae2ed1bd8e5466eb42e72cc39a</hashedID:hashDigest>
+          </hashedIdentifier>
+        </targetIdentifier>
+      </targetIdentifiers>
+      <deliveryType>X2andX3</deliveryType>
+      <listOfDIDs></listOfDIDs>      
+    </taskDetails>
+  </x1RequestMessage>
+</X1Request>

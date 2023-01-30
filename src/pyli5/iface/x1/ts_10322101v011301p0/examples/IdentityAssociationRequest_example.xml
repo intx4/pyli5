@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<ns1:X1Request xmlns:ns1="http://uri.etsi.org/03221/X1/2017/10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:identity="urn:3GPP:ns:li:3GPPIdentityExtensions:r17:v3">
+  <ns1:x1RequestMessage xsi:type="identity:IdentityAssociationRequest">
+      <ns1:admfIdentifier>ADMFID</ns1:admfIdentifier>
+      <ns1:neIdentifier>NEIF</ns1:neIdentifier>
+      <ns1:messageTimestamp>2023-01-10T14:44:02.847474Z</ns1:messageTimestamp>
+      <ns1:version>v1.6.1</ns1:version>
+      <ns1:x1TransactionId>3741800e-971b-4aa9-85f4-466d2b1adc7f</ns1:x1TransactionId>
+      <identity:RequestDetails>
+        <identity:Type>
+            <identity:Owner>3GPP</identity:Owner>
+            <identity:Name>RequestType</identity:Name>
+            <identity:Value>IdentityAssociation</identity:Value>
+        </identity:Type>
+        <identity:ObservedTime>2017-10-06T18:46:21Z</identity:ObservedTime>
+        <identity:RequestValues>
+            <identity:RequestValue>
+                <identity:FormatType>
+                    <identity:FormatOwner>3GPP</identity:FormatOwner>
+                    <identity:FormatName>SUCI</identity:FormatName>
+                </identity:FormatType>
+                <identity:Value>LOUISISTHEBEST</identity:Value>
+            </identity:RequestValue>
+        </identity:RequestValues>
+      </identity:RequestDetails>
+  </ns1:x1RequestMessage>
+</ns1:X1Request>

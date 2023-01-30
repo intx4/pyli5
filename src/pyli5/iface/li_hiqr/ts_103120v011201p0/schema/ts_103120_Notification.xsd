@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:etsi="http://uri.etsi.org/03280/common/2017/07"
+           xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common"
+           xmlns:core="http://uri.etsi.org/03120/common/2019/10/Core"
+           xmlns="http://uri.etsi.org/03120/common/2016/02/Notification"
+           targetNamespace="http://uri.etsi.org/03120/common/2016/02/Notification"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://uri.etsi.org/03120/common/2016/02/Common" schemaLocation="ts_103120_Common.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03120/common/2019/10/Core" schemaLocation="ts_103120_Core.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03280/common/2017/07" schemaLocation="TS_103_280_01.xsd"/>
+
+
+	<xs:complexType name="NotificationObject">
+		<xs:complexContent>
+			<xs:extension base="core:HI1Object">
+				<xs:sequence>
+					<xs:element name="NotificationDetails" type="etsi:LongString" minOccurs="0"></xs:element>
+					<xs:element name="NotificationType" type="common:DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="NewNotification" type="xs:boolean" minOccurs="0"></xs:element>
+					<xs:element name="NotificationTimestamp" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+					<xs:element name="NationalNotificationParameters" type="NationalNotificationParameters" minOccurs="0"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NationalNotificationParameters" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

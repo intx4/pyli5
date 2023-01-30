@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:etsi="http://uri.etsi.org/03280/common/2017/07"
+           xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common"
+           xmlns:core="http://uri.etsi.org/03120/common/2019/10/Core"
+           xmlns="http://uri.etsi.org/03120/common/2020/09/Document"
+           targetNamespace="http://uri.etsi.org/03120/common/2020/09/Document"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://uri.etsi.org/03120/common/2016/02/Common" schemaLocation="ts_103120_Common.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03120/common/2019/10/Core" schemaLocation="ts_103120_Core.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03280/common/2017/07" schemaLocation="TS_103_280_01.xsd"/>
+
+
+	<xs:complexType name="DocumentObject">
+		<xs:complexContent>
+			<xs:extension base="core:HI1Object">
+				<xs:sequence>
+					<xs:element name="DocumentReference" type="etsi:LongString" minOccurs="0"></xs:element>
+					<xs:element name="DocumentName" type="etsi:LongString" minOccurs="0"></xs:element>
+					<xs:element name="DocumentStatus" type="common:DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="DocumentDesiredStatus" type="common:DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="DocumentTimespan" type="DocumentTimespan" minOccurs="0"></xs:element>
+					<xs:element name="DocumentType" type="common:DictionaryEntry" minOccurs="0"></xs:element>
+					<xs:element name="DocumentProperties" type="DocumentProperties" minOccurs="0"></xs:element>
+					<xs:element name="DocumentBody" type="DocumentBody" minOccurs="0"></xs:element>
+					<xs:element name="DocumentSignature" type="common:ApprovalDetails" minOccurs="0" maxOccurs="unbounded"></xs:element>
+					<xs:element name="DocumentInvalidReason" type="core:ActionUnsuccesfulInformation" minOccurs="0"/>
+					<xs:element name="NationalDocumentParameters" type="NationalDocumentParameters" minOccurs="0"></xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DocumentTimespan">
+		<xs:sequence>
+			<xs:element name="StartTime" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+			<xs:element name="EndTime" type="etsi:QualifiedDateTime" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentProperties">
+		<xs:sequence>
+			<xs:element name="DocumentProperty" type="DocumentProperty" minOccurs="0" maxOccurs="unbounded"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentProperty">
+		<xs:sequence>
+			<xs:element name="PropertyType" type="common:DictionaryEntry"></xs:element>
+			<xs:element name="PropertyValue" type="etsi:LongString"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentBody">
+		<xs:sequence>
+			<xs:element name="Contents" type="xs:base64Binary" minOccurs="0"></xs:element>
+			<xs:element name="ContentType" type="etsi:ShortString" minOccurs="0"></xs:element>
+			<xs:element name="Checksum" type="etsi:ShortString" minOccurs="0"></xs:element>
+			<xs:element name="ChecksumType" type="etsi:ShortString" minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NationalDocumentParameters" abstract="true">
+		<xs:sequence>
+			<xs:element name="CountryCode" type="etsi:ISOCountryCode"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

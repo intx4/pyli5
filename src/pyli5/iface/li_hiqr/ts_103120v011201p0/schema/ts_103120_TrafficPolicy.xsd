@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:etsi="http://uri.etsi.org/03280/common/2017/07" xmlns:common="http://uri.etsi.org/03120/common/2016/02/Common" xmlns:core="http://uri.etsi.org/03120/common/2019/10/Core" xmlns="http://uri.etsi.org/03120/common/2022/07/TrafficPolicy" targetNamespace="http://uri.etsi.org/03120/common/2022/07/TrafficPolicy" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="http://uri.etsi.org/03120/common/2016/02/Common" schemaLocation="ts_103120_Common.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03120/common/2019/10/Core" schemaLocation="ts_103120_Core.xsd"/>
+	<xs:import namespace="http://uri.etsi.org/03280/common/2017/07" schemaLocation="TS_103_280_01.xsd"/>
+
+    <xs:complexType name="TrafficPolicyObject">
+        <xs:complexContent>
+            <xs:extension base="core:HI1Object">
+                <xs:sequence>
+                    <xs:element name="TrafficPolicyName" type="etsi:ShortString" minOccurs="0"/>
+                    <xs:element name="TrafficRules" type="ListOfTrafficRuleReferences" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ListOfTrafficRuleReferences">
+        <xs:sequence>
+            <xs:element name="TrafficRuleReference" type="TrafficRuleReference" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TrafficRuleReference">
+        <xs:sequence>
+            <xs:element name="Order" type="xs:positiveInteger"/>
+            <xs:element name="ObjectIdentifier" type="core:ObjectIdentifier"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TrafficRuleObject">
+        <xs:complexContent>
+            <xs:extension base="core:HI1Object">
+                <xs:sequence>
+                    <xs:element name="Criteria" type="ListOfTrafficCriteria" minOccurs="0"/>
+                    <xs:element name="Action" type="common:DictionaryEntry" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ListOfTrafficCriteria">
+        <xs:sequence>
+          <xs:element name="Criteria" type="TrafficCriteria" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TrafficCriteria">
+        <xs:choice>
+            <xs:element name="IPPolicyCriteria" type="IPPolicyCriteria"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="IPPolicyCriteria">
+        <xs:sequence>
+            <xs:element name="IPProtocol" type="xs:nonNegativeInteger" minOccurs="0"/>
+            <xs:element name="SourceIPRange" type="etsi:IPCIDR" minOccurs="0"/>
+            <xs:element name="SourcePortRange" type="etsi:PortRange" minOccurs="0"/>
+            <xs:element name="DestinationIPRange" type="etsi:IPCIDR" minOccurs="0"/>
+            <xs:element name="DestinationPortRange" type="etsi:PortRange" minOccurs="0"/>
+            <xs:element name="BothDirections" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
