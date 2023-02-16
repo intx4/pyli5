@@ -89,7 +89,7 @@ TTL = 600.0
 class AMFLogWatcher():
     """
     Observers open5gs amf.log file to find IEF logging entries
-    This is compatible with https://github.com/intx4/open5gs modified open5gs-amfd binary with log level INFO
+    This is compatible with https://github.com/intx4/open5gsLI modified open5gs-amfd binary with log level INFO
 
     :param path : str - path to log file
     :q : IEFQ - for sending ief assoc/deassoc events to poi logic

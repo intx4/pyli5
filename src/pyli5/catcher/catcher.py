@@ -33,7 +33,7 @@ class InterceptionQ():
 class LogWatcher():
     """
     Observers ueransim nr_ue.log file to find registration events
-    This is compatible with https://github.com/intx4/ueransim
+    This is compatible with https://github.com/intx4/ueransimLI
 
     :param path : str - path to log file
     :q : IEFQ - for sending ief assoc/deassoc events to poi logic
