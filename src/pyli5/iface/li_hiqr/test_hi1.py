@@ -33,6 +33,7 @@ def test_parsing():
         print(etree.tostring(msg.xml_encode(), xml_declaration=True, pretty_print=True))
 
 def test_encoding():
+
     header = Header(HeaderIdentifier("XX", "ACTOR01"), HeaderIdentifier("XX", "ACTOR02"),
                     transactionId="c02358b2-76cf-4ba4-a8eb-f6436ccaea2e")
 

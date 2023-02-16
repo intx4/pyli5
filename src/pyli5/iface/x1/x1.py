@@ -14,6 +14,15 @@ NSMAPTAG = {}
 for k,v in NSMAP.items():
     NSMAPTAG[k] = "{" + v + "}"
 
+import re
+
+def extract_type(input_string):
+    pattern = re.compile(r"[a-zA-Z0-9]*:(.*)")
+    match = pattern.search(input_string)
+    if match:
+        return match.group(1)
+    return input_string
+
 class X1Parser():
 
     def parse_X1_Message(self, data: bytes)->X1Message:
@@ -24,7 +33,8 @@ class X1Parser():
             <ns1:version>v1.6.1</ns1:version>
             <ns1:x1TransactionId>3741800e-971b-4aa9-85f4-466d2b1adc7f</ns1:x1TransactionId>
         """
-        xml = etree.fromstring(data)
+        p = etree.XMLParser(huge_tree=True)
+        xml = etree.fromstring(data, parser=p)
         ne_id = ""
         admf_id = ""
         try:
@@ -58,7 +68,7 @@ class X1Parser():
             raise X1MessageError(str(ex), type_for_error=ex.type_for_error, admf_id=admf_id, ne_id=ne_id, x1_tid=x1_transaction_id,code=1000)
 
     def _parse_request(self, request)->X1Entity:
-        type = request.attrib[NSMAPTAG['xsi']+"type"]
+        type = extract_type(request.attrib[NSMAPTAG['xsi']+"type"])
         if "ActivateTask" in type:
             task = request.find(".//{*}taskDetails")
             try:
@@ -122,17 +132,26 @@ class X1Parser():
         return CreateDestinationRequest(None, None, None, dId=did, address=addr, port=port)
 
     def _parse_response(self, response)->X1Entity:
-        type = response.attrib[NSMAPTAG['xsi'] + "type"]
+        type = extract_type(response.attrib[NSMAPTAG['xsi'] + "type"])
         if "ActivateTask" in type or "DeactivateTask" in type or "CreateDestination" in type or "RemoveDestination" in type:
             ok = response.find(".//{*}oK")
             if ok is not None:
                 ok = ok.text
-                return SimpleResponse(None, None, None, ok, None, None, type=type)
+                return SimpleResponse(None, None, None, ok, None, None, None, type=type)
             else:
                 error = response.find(".//{*}ErrorInformation")
                 description = error.find(".//{*}ErrorDescription")
                 code = error.find(".//{*}ErrorCode")
-            return SimpleResponse(None, None, None, None, description, code, type=type)
+                type_for_error = ""
+                if "ActivateTask" in type:
+                    type_for_error = "ActivateTask"
+                elif "DeactivateTask" in type:
+                    type_for_error = "DeactivateTask"
+                elif "CreateDestination" in type:
+                    type_for_error = "CreateDestination"
+                elif "RemoveDestination" in type:
+                    type_for_error = "RemoveDestination"
+            return SimpleResponse(None, None, None, None, description, code, type_for_error=type_for_error, type=type)
         elif "PrivateIdentityAssociation" in type:
             return self._parse_private_identity_association_response(response.find(".//{*}PrivateResponseDetails"))
         elif "IdentityAssociation" in type:

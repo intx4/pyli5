@@ -1,0 +1,19 @@
+syntax = "proto3";
+package client;
+
+option go_package= "github.com/intx4/pir/pb";
+
+message QueryMessage {
+  string query = 1;
+}
+
+message AnswerMessage {
+  string answer = 1;
+  string error = 2;
+}
+
+
+
+service Proxy{
+  rpc Query(QueryMessage) returns (AnswerMessage) {}
+}

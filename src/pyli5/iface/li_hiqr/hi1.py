@@ -39,7 +39,6 @@ class H1_Parser():
                 raise NotImplementedError(action.tag)
             elif "DELIVER" in action.tag:
                 identifier = action.find(".//{*}Identifier").text
-                action_identifier = action.find(".//{*}ActionIdentifier").text
             return Action(HI1_ACTION_RESPONSE, action.tag, action_identifier, identifier, None, error)
         elif "ErrorInformation" not in action.tag:
             if "CREATE" in action.tag:
@@ -168,30 +167,29 @@ class H1_Parser():
 
     def parse_HI1Message(self,data : bytes):
         # message is Header + Payload
-        msg = etree.fromstring(data)
+        p = etree.XMLParser(huge_tree=True)
+        msg = etree.fromstring(data, parser = p)
         try:
             XSD.assertValid(msg)
-        except Exception as ex:
             header = msg[0]
-            header = self._parse_header(header)
-            raise XMLError(header, str(ex))
-        header = msg[0]
-        payload = msg[1][0]
+            payload = msg[1][0]
 
-        #parse header
-        header = self._parse_header(header)
-        #parse payload
-        try:
+            # parse header
+            header = self._parse_header(header)
+            # parse payload
             payload = self._parse_payload(payload)
+            return HI1_Message(header, payload)
         except Exception as ex:
             try:
+                header = msg[0]
+                header = self._parse_header(header)
+                ex = XMLError(str(ex))
                 ex.header = header
                 raise ex
-            except:
-                # all not custom h1 errors
+            except Exception as ex:
                 generic = GenericError(str(ex))
                 generic.header = header
                 raise generic
-        return HI1_Message(header, payload)
+
 
 

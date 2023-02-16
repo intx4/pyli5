@@ -1,0 +1,6 @@
+{
+  "lea_ip": "LEA_IP",
+  "lea_interception_port": "LEA_INTERCEPTION_PORT",
+  "lea_interception_url": "/api/intercept",
+  "log_path": "/UERANSIM/var/log/nr_ue.log"
+}

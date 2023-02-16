@@ -1,7 +1,8 @@
 from http import client
 from pyli5.iface.x1.x1 import X1Parser
 from pyli5.iface.x1.x1_messages import X1Message
-from pyli5.utils.logger import Logger
+from pyli5.utils.logger import Logger, MAXLEN
+from pyli5.utils.math import Min
 from threading import Thread
 from lxml import etree
 
@@ -20,21 +21,27 @@ class XQRClient():
         self.source_address = source_address
 
     # send a compliant X1 message. Spawns a thread
-    def send(self, host: str, port : int, url: str, content: X1Message) -> X1Message:
+    def send(self, host: str, port : int, url: str, content: X1Message, timeout:float=None) -> X1Message:
         try:
-            connection = client.HTTPConnection(host, port=port, source_address=self.source_address)
+            connection = client.HTTPConnection(host, port=port, source_address=self.source_address, timeout=timeout)
             content = etree.tostring(content.xml_encode(), xml_declaration=True)
             headers = {'Content-type': 'application/xml', 'Content-Length': len(content)}
 
             connection.request("POST", url, content, headers)
 
             response = connection.getresponse()
-            self.logger.log(f"  XQR_Client - sending {content} to {host}:{port} at {url}")
-            msg = self.x1_parser.parse_X1_Message(response.read())
-            self.logger.log(f"  XQR_Client - receiving {etree.tostring(msg.xml_encode(), pretty_print=True)} from {host}:{port} ")
+            self.logger.log(f"XQR_Client - sending {content[:Min(MAXLEN, len(content))]} to {host}:{port} at {url}")
+            data = response.read()
+            msg = self.x1_parser.parse_X1_Message(data)
+            self.logger.log(f"XQR_Client - receiving {etree.tostring(msg.xml_encode(), pretty_print=True)[:Min(MAXLEN, len(etree.tostring(msg.xml_encode(), pretty_print=True)))]} from {host}:{port} ")
             connection.close()
             return msg
         except Exception as ex:
-            self.logger.error(f"    XQR CLIENT - {str(ex)}")
+            self.logger.error(f"XQR CLIENT - {str(ex)}")
+            try:
+                if data == b"Internal server error":
+                    self.logger.error(f"error - {data.decode()}")
+            finally:
+                raise ex
 
 

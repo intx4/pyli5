@@ -21,16 +21,17 @@ class XEMClient():
     # send a compliant X1 message. Spawns a thread
     def send(self, host: str, port : int, url: str, content: X1Message)->X1Message:
         try:
-            connection = client.HTTPConnection(host, port=port, source_address=self.source_address)
             content = etree.tostring(content.xml_encode(), xml_declaration=True)
+            self.logger.log(f"   LI_XEM1_Client - sending {content} to {host}:{port} at {url}")
+            connection = client.HTTPConnection(host, port=port, source_address=self.source_address)
             headers = {'Content-type': 'application/xml', 'Content-Length': len(content)}
             connection.request("POST", url, content, headers)
-            self.logger.log(f"   LI_XEM1_Client - sending {content} to {host}:{port} at {url}")
             response = connection.getresponse()
-
-            msg = X1Parser.parse_X1_Message(response.read())
+            msg = self.x1_parser.parse_X1_Message(data=response.read())
             self.logger.log(f"   LI_XEM1_Client - receiving {etree.tostring(msg.xml_encode())} from {host}:{port} at {url}")
             connection.close()
+            return msg
         except Exception as ex:
             self.logger.error(str(ex))
+            raise ex
 

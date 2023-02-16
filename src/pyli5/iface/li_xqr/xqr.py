@@ -28,7 +28,7 @@ class LI_XQR:
         server = XQRServer(host, port, url, pipe, self.logger)
         t = threading.Thread(daemon=True, target=server.serve_forever, args=())
         t.start()
-    def send(self, host: str, port: int, url: str, content: X1Message, source_address:tuple=None)->X1Message:
+    def send(self, host: str, port: int, url: str, content: X1Message, source_address:tuple=None, timeout:float=None)->X1Message:
         """
         :param host: ipv4
         :param port: port
@@ -39,6 +39,6 @@ class LI_XQR:
 
 
         client = XQRClient(self.logger, source_address)
-        resp = client.send(host, port, url, content)
+        resp = client.send(host, port, url, content, timeout)
         return resp
 

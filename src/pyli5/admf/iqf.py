@@ -19,6 +19,7 @@ from threading import Thread
 from lxml import etree
 from queue import Queue
 from pyli5.utils.identifiers import gen_random_uuid
+from pyli5.admf.internal_iface import InternalInterface
 from multiprocessing import Process
 from threading import Lock, Thread
 class AuthorizationStore:
@@ -67,7 +68,7 @@ class LEAInfoStore:
         self.lock.release()
         return keys
 class IQF():
-    def __init__(self, admf_id : str, hiqr_addr : str, hiqr_port : str, icf_addr : str, icf_port : str):
+    def __init__(self, admf_id : str, hiqr_addr : str, hiqr_port : str, icf_addr : str, icf_port : str, li_iqf : InternalInterface):
         self.logger = Logger("IQF")
         self.xqr = LI_XQR(self.logger)
         self.admf_id = admf_id
@@ -83,6 +84,7 @@ class IQF():
         self.sender_auth = AuthorizationStore() #sender id -> auth ref
         self.x1_tid_to_sender = LEAInfoStore() #x1_tid -> (addr, port)
 
+        self.li_iqf = li_iqf
         self._arm()
 
     def _dispatch_h1_messages(self):
@@ -92,6 +94,7 @@ class IQF():
         while True:
             try:
                 msg = self.hiqr_pipe.get()
+                self.logger.log("New message from LI_HIQR")
                 header = msg.msg.header
                 sender = header.sender.unique_identifier
                 actions = msg.msg.payload.actions
@@ -118,6 +121,7 @@ class IQF():
                                         Action(HI1_ACTION_RESPONSE, "CREATEResponse", str(i), action.object.object_identifier,
                                                None))
                                     t = threading.Thread(daemon=True, target=self._process_LD_task, args=(header, action, action.object.delivery_details.address, action.object.delivery_details.port))
+                                    self.logger.log("Processing LD Task...")
                                     t.start()
 
                             if isinstance(action.object, Private_LD_Task_Object):
@@ -140,6 +144,7 @@ class IQF():
                                     t = threading.Thread(daemon=True, target=self._process_Private_LD_task, args=(
                                     header, action, action.object.delivery_details.address,
                                     action.object.delivery_details.port))
+                                    self.logger.log("Processing Private LD Task...")
                                     t.start()
 
                 response = Payload(HI1_PAYLOAD_RESPONSE, response_actions)
@@ -154,13 +159,28 @@ class IQF():
             except Exception as ex:
                 self.logger.error(str(ex))
             finally:
-                self.logger.log("continuing")
                 continue
 
     def _process_LD_task(self, header: Header, action: Action, addr : str, port : str):
         try:
+            self.li_iqf.send_request(True)
+            resp = self.li_iqf.get_response(True)
+            if resp == False:
+                self.logger.error("LI_IQF - LICF negates request: IEF not active")
+                msg = HI1_Message(
+                    header=Header(header.receiver, header.sender, header.transactionId),
+                    payload=Payload(HI1_PAYLOAD_RESPONSE, [
+                        Action(HI1_ACTION_RESPONSE, "ErrorInformation", "0", None, None,
+                               error=ErrorInformation("IEF not active", "1000"))
+                    ])
+                )
+                self.hiqr.send(addr, int(port), "/", etree.tostring(msg.xml_encode(), xml_declaration=True))
+                return
+            self.logger.log("Forwarding LD Task to ICF")
             xqr_msg = self._convert_to_IdentityAssociation(action.object)
+            self.logger.log("Waiting for response")
             response = self.xqr.send(self.icf_addr, self.icf_port,"/", xqr_msg)
+            self.logger.log("Converting to HI1 Message")
             action_response = self._convert_from_IdentityAssociation(action.object.reference,
                                                                     action.object.object_identifier, response)
             response = Payload(HI1_PAYLOAD_REQUEST, actions=[action_response])
@@ -168,28 +188,60 @@ class IQF():
                 header=Header(header.receiver, header.sender, header.transactionId),
                 payload=response,
             )
+            self.logger.log("Sending over to HIQR")
             self.hiqr.send(addr, int(port), "/",etree.tostring(msg.xml_encode(), xml_declaration=True))
         except Exception as ex:
             self.logger.error(str(ex))
-        finally:
+            msg = HI1_Message(
+                header=Header(header.receiver, header.sender, header.transactionId),
+                payload=Payload(HI1_PAYLOAD_RESPONSE, [
+                    Action(HI1_ACTION_RESPONSE, "ErrorInformation", "0", None, None,
+                           error=ErrorInformation(str(ex), "1000"))
+                ])
+            )
+            self.hiqr.send(addr, int(port), "/", etree.tostring(msg.xml_encode(), xml_declaration=True), timeout=0.001)
             return
 
     def _process_Private_LD_task(self, header: Header, action: Action, addr : str, port : str):
         try:
+            self.li_iqf.send_request(True)
+            resp = self.li_iqf.get_response()
+            if resp == False:
+                self.logger.error("LI_IQF - LICF negates request: IEF not active")
+                msg = HI1_Message(
+                    header=Header(header.receiver, header.sender, header.transactionId),
+                    payload=Payload(HI1_PAYLOAD_RESPONSE, [
+                    Action(HI1_ACTION_RESPONSE, "ErrorInformation", "0", None, None, error=ErrorInformation("IEF not active", "1000"))
+                    ])
+                )
+                self.hiqr.send(addr, int(port), "/", etree.tostring(msg.xml_encode(), xml_declaration=True))
+                return
+            self.logger.log("Forwarding Private LD Task to ICF")
             xqr_msg = self._convert_to_PrivateIdentityAssociation(action.object)
+            self.logger.log("Waiting for response")
             response = self.xqr.send(self.icf_addr, self.icf_port,"/", xqr_msg)
-            action_response = self._convert_from_IdentityAssociation(action.object.reference,
+            self.logger.log("Converting to HI1 Message")
+            action_response = self._convert_from_PrivateIdentityAssociation(action.object.reference,
                                                                     action.object.object_identifier, response)
             response = Payload(HI1_PAYLOAD_REQUEST, actions=[action_response])
             msg = HI1_Message(
                 header=Header(header.receiver, header.sender, header.transactionId),
                 payload=response,
             )
+            self.logger.log("Sending over to HIQR")
             self.hiqr.send(addr, int(port), "/", etree.tostring(msg.xml_encode(), xml_declaration=True))
         except Exception as ex:
             self.logger.error(str(ex))
-        finally:
+            msg = HI1_Message(
+                header=Header(header.receiver, header.sender, header.transactionId),
+                payload=Payload(HI1_PAYLOAD_RESPONSE, [
+                    Action(HI1_ACTION_RESPONSE, "ErrorInformation", "0", None, None,
+                           error=ErrorInformation(str(ex), "1000"))
+                ])
+            )
+            self.hiqr.send(addr, int(port), "/", etree.tostring(msg.xml_encode(), xml_declaration=True), timeout=0.001)
             return
+
     def _convert_to_IdentityAssociation(self, h1_msg : LD_Task_Object)->X1Message:
         x1_tid = gen_random_uuid()
         for x1_tid in self.x1_tid_to_sender.keys():

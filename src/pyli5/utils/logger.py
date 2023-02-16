@@ -3,6 +3,8 @@ from logging import *
 from pathlib import Path
 import os
 from threading import Lock
+
+MAXLEN = 64*1024
 def _create_dir(path):
     is_exist = os.path.exists(path)
     if not is_exist:
@@ -30,6 +32,11 @@ class Logger():
     def log(self, msg:str):
         self._lock.acquire()
         self.l.info(msg)
+        self._lock.release()
+
+    def debug(self, msg:str):
+        self._lock.acquire()
+        self.l.debug(msg)
         self._lock.release()
 
     def error(self, msg:str):

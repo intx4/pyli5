@@ -89,7 +89,7 @@ TTL = 600.0
 class AMFLogWatcher():
     """
     Observers open5gs amf.log file to find IEF logging entries
-    This is compatible with https://github.com/intx4/open5gs branch v2.4.10 modified open5gs-amfd binary with log level INFO
+    This is compatible with https://github.com/intx4/open5gs modified open5gs-amfd binary with log level INFO
 
     :param path : str - path to log file
     :q : IEFQ - for sending ief assoc/deassoc events to poi logic
@@ -104,7 +104,7 @@ class AMFLogWatcher():
     def watch(self):
         f = open(self.log)
         try:
-            #f.seek(path.getsize(f.name))  # go to EOF
+            f.seek(path.getsize(f.name))  # go to EOF
             log = f
             while True:
                 line = log.readline()
@@ -146,7 +146,7 @@ class AMFLogWatcher():
                                 f"      AMF POI - new deassoc event {event.deassoc.supi} -> {event.deassoc.fivegguti}")
                             self.q.put(event, block=True)
                 else:
-                    time.sleep(0.1)
+                    time.sleep(0.01)
                     continue
         except Exception as ex:
             self.logger.error(f"        AMF POI - panic {str(ex)}")

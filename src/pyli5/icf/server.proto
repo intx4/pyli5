@@ -1,0 +1,18 @@
+syntax = "proto3";
+package server;
+
+option go_package= "github.com/intx4/pir/server";
+
+//b64 encoded PIRQuery from X1 interface to PIR server
+message InternalRequest {
+  string query = 1;
+}
+
+//b64 encoded PIRAnswer from PIR server to X1 interface
+message InternalResponse {
+  string answer = 1;
+}
+
+service InternalServer{
+  rpc Query(InternalRequest) returns (InternalResponse) {}
+}

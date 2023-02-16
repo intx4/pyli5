@@ -1,8 +1,11 @@
 {
+    "ip": "LEA_IP",
     "id": "LEA_ID",
     "hiqr_addr": "LEA_HIQR_ADDR",
-    "hiqr_port": " LEA_HIQR_PORT",
+    "hiqr_port": "LEA_HIQR_PORT",
     "iqf_addr": "IQF_HIQR_ADDR",
     "iqf_port": "IQF_HIQR_PORT",
-    "grpc_port": "GRPC_PORT"
+    "grpc_port": "GRPC_PORT",
+    "interception_port": "LEA_INTERCEPTION_PORT",
+    "web_ui_port": "LEA_UI_PORT"
 }

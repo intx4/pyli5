@@ -1,7 +1,8 @@
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pyli5.iface.li_hiqr.hi1 import H1_Parser
 from pyli5.iface.li_hiqr.hi1_messages import *
-from pyli5.utils.logger import Logger
+from pyli5.utils.logger import Logger, MAXLEN
+from pyli5.utils.math import Min
 from queue import Queue
 from dataclasses import dataclass
 from pyli5.iface.li_hiqr.hi1_errors import *
@@ -60,7 +61,7 @@ class HIQRServer(ThreadingHTTPServer):
         self.hiqr_pipe = hiqr_pipe
         self.logger = logger
         super().__init__((addr, int(port)), RequestHandlerClass=H1_Handler)
-        self.logger.log(f"  LI_HIQR_Server - started at {addr}:{port}")
+        self.logger.log(f"LI_HIQR_Server - started at {addr}:{port}")
 
 class H1_Handler(BaseHTTPRequestHandler):
     def _set_response(self, code : int, content : bytes):
@@ -83,10 +84,10 @@ class H1_Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
-        self.server.logger.log(f"   LI_HIQR Server - Received POST request {post_data.decode()}")
+        self.server.logger.log(f"LI_HIQR Server - Received POST request")
         try:
             msg = self.server.h1_parser.parse_HI1Message(post_data)
-            self.server.logger.log(f"   LI_HIQR Server - H1 recvd message: {etree.tostring(msg.xml_encode())}")
+            self.server.logger.log(f"LI_HIQR Server - H1 recvd message: {etree.tostring(msg.xml_encode())[:Min(MAXLEN, len(etree.tostring(msg.xml_encode())))]}")
             q=Queue(1)
             hiqr_msg = HIQRMessage(msg=msg, responseQ=q)
             self.server.hiqr_pipe.push(hiqr_msg)
@@ -99,12 +100,12 @@ class H1_Handler(BaseHTTPRequestHandler):
             resp_code, resp_content = 500, etree.tostring(err_msg.xml_encode())
         except Exception as ex:
             #nested error
-            self.server.logger.error(f"   LI_HIQR Server - {str(ex)}")
+            self.server.logger.error(f"LI_HIQR Server - {str(ex)}")
             err_msg = HI1_Message(header=ex.header,payload = Payload(HI1_PAYLOAD_RESPONSE, [
         Action(HI1_ACTION_RESPONSE, "ErrorInformation", "0", None, None, error=ErrorInformation(str(ex),"500"))
     ]))
             resp_code, resp_content = 500, etree.tostring(err_msg.xml_encode())
         finally:
-            self.server.logger.log(f"   LI_HIQR Server - sending response to POST {resp_code} : {resp_content.decode()}")
+            self.server.logger.log(f"LI_HIQR Server - sending response to POST {resp_code} : {resp_content.decode()[:Min(MAXLEN, len(resp_content.decode()))]}")
             if resp_code != 0:
                 self._set_response(resp_code, resp_content)

@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pyli5.iface.x1.x1 import X1Parser
-from pyli5.utils.logger import Logger
+from pyli5.utils.logger import Logger, MAXLEN
+from pyli5.utils.math import Min
 from pyli5.iface.x1.x1_messages import *
 from pyli5.iface.x1.x1_errors import *
 from queue import Queue
@@ -87,13 +88,15 @@ class XQRHandler(BaseHTTPRequestHandler):
 
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
-
+        self.server.logger.log("XQR_Server - Received POST request")
         try:
             msg = self.server.x1_parser.parse_X1_Message(post_data)
-            self.server.logger.log(f"   XQR_Server - Received POST request {etree.tostring(msg.xml_encode())}")
+            self.server.logger.log(f"   XQR_Server - {etree.tostring(msg.xml_encode())[:Min(MAXLEN, len(etree.tostring(msg.xml_encode())))]}")
             q=Queue(1)
             self.server.xqr_pipe.push(XQRMessage(msg=msg, responseQ=q))
             resp_code, resp_content = q.get()
+            if resp_code == 500:
+                raise Exception("Internal Server Error")
         except X1MessageError as ex:
             if "TopLevel" in ex.type_for_error:
                 err_msg = X1Message(entity=None, error=TopLevelErrorResponse(ex.admf_id, ex.ne_id))
@@ -103,10 +106,10 @@ class XQRHandler(BaseHTTPRequestHandler):
                                           type_for_error=ex.type_for_error, type="ErrorResponse"))
                 resp_code, resp_content = 500, etree.tostring(err_msg.xml_encode())
         except Exception as ex:
-            self.server.logger.error(str(ex))
-            resp_code, resp_content = 500, b"error"
+            self.server.logger.error(f"XQR_Server error - {str(ex)}")
+            resp_code, resp_content = 500, b"Internal server error"
         finally:
-            self.server.logger.log(f"   XQR_Server - sending response {resp_code} : {resp_content.decode()}")
+            self.server.logger.log(f"   XQR_Server - sending response {resp_code} : {resp_content.decode()[:Min(MAXLEN, len(resp_content.decode()))]}")
             if resp_code != 0:
                 self._set_response(resp_code, resp_content)
 

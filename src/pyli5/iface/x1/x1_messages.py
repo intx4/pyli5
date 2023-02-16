@@ -207,7 +207,7 @@ class TopLevelErrorResponse():
 
 class SimpleResponse(X1Entity):
     """ for creating or removing tasks or destinations"""
-    def __init__(self, admf_id, ne_id, x1_transaction_id, ok, error, code,type_for_error, type):
+    def __init__(self, admf_id, ne_id, x1_transaction_id, ok, error, code, type_for_error, type):
         self.admf_id = admf_id
         self.ne_id = ne_id
         self.x1_transaction_id = x1_transaction_id

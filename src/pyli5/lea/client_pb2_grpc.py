@@ -5,7 +5,7 @@ import grpc
 import pyli5.lea.client_pb2 as client__pb2
 
 
-class InternalClientStub(object):
+class ProxyStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -15,13 +15,13 @@ class InternalClientStub(object):
             channel: A grpc.Channel.
         """
         self.Query = channel.unary_unary(
-                '/client.InternalClient/Query',
-                request_serializer=client__pb2.InternalRequest.SerializeToString,
-                response_deserializer=client__pb2.InternalResponse.FromString,
+                '/client.Proxy/Query',
+                request_serializer=client__pb2.QueryMessage.SerializeToString,
+                response_deserializer=client__pb2.AnswerMessage.FromString,
                 )
 
 
-class InternalClientServicer(object):
+class ProxyServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Query(self, request, context):
@@ -31,21 +31,21 @@ class InternalClientServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_InternalClientServicer_to_server(servicer, server):
+def add_ProxyServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Query': grpc.unary_unary_rpc_method_handler(
                     servicer.Query,
-                    request_deserializer=client__pb2.InternalRequest.FromString,
-                    response_serializer=client__pb2.InternalResponse.SerializeToString,
+                    request_deserializer=client__pb2.QueryMessage.FromString,
+                    response_serializer=client__pb2.AnswerMessage.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'client.InternalClient', rpc_method_handlers)
+            'client.Proxy', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class InternalClient(object):
+class Proxy(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -59,8 +59,8 @@ class InternalClient(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/client.InternalClient/Query',
-            client__pb2.InternalRequest.SerializeToString,
-            client__pb2.InternalResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/client.Proxy/Query',
+            client__pb2.QueryMessage.SerializeToString,
+            client__pb2.AnswerMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -185,20 +185,22 @@ class ICF(Process):
 """
 import grpc
 
-from pyli5.utils.logger import Logger
+from pyli5.utils.logger import Logger, MAXLEN
+from pyli5.utils.math import Min
 from pyli5.iface.li_xqr.xqr import LI_XQR
 from pyli5.iface.li_xqr.xqr_server import XQRMessage, XQRPipe, X1Message
 from pyli5.iface.x1.x1_messages import *
-from pyli5.icf.server_pb2_grpc import *
+from pyli5.icf.server_pb2_grpc import InternalServerStub
+from pyli5.icf.server_pb2 import InternalRequest, InternalResponse
 from threading import Thread
 import base64
 class ICF():
-    def __init__(self, xqr_addr : str, xqr_port : str, grcp_port : str):
+    def __init__(self, xqr_addr : str, xqr_port : str, grpc_port : str):
         self.logger = Logger("ICF")
         self.xqr_pipe = XQRPipe()
         self.xqr = LI_XQR(self.logger)
         self.xqr.run_server(xqr_addr, int(xqr_port), "/", self.xqr_pipe)
-        self.grpc_port = grcp_port
+        self.grpc_port = grpc_port
         self._arm()
 
     def _listen_xqr(self):
@@ -243,12 +245,19 @@ class ICF():
                 #        ).xml_encode(), xml_declaration=True)))
             except Exception as ex:
                 self.logger.error(str(ex))
+                msg.responseQ.put(500, str(ex))
 
     def Query(self, pir_query : str):
         """ Query local GRPC server for PIR """
-        grpc_chan = grpc.insecure_channel(f'localhost:{self.grpc_port}')
+        grpc_chan = grpc.insecure_channel(f'127.0.0.1:{self.grpc_port}',
+        options = [
+            ('grpc.max_send_message_length', 200*1024*1024),
+            ('grpc.max_receive_message_length', 200*1024*1024),
+        ])
         stub = InternalServerStub(grpc_chan)
-        return stub.Query(pir_query)
+        self.logger.debug(f"gRPC - Sending PIRQuery {pir_query[:Min(MAXLEN, len(pir_query))]} to Go server")
+        response = stub.Query(InternalRequest(query=pir_query))
+        return response.answer
 
     def _arm(self):
         t = Thread(daemon=True, target=self._listen_xqr)
