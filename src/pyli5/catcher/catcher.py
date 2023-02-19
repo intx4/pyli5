@@ -10,7 +10,7 @@ from os import path
 from threading import Thread
 import sys
 from pyli5.utils.logger import Logger
-from pyli5.utils.identifers import tmsi_to_hex
+from pyli5.utils.identifiers import tmsi_to_hex
 from pyli5.utils.time import get_time_no_ms
 import string
 import requests
