@@ -13,3 +13,18 @@ def gen_random_uuid():
 
 if __name__ == "__main__":
     print(gen_random_uuid())
+
+
+def tmsi_to_hex(tmsi: int)->str:
+    """Convert the tmsi as a negative integer to its two's complement representation
+        Used to convert UERANSIM tmsi to open5gs TMSI
+    """
+    twos_comp = (1 << 32) + tmsi
+
+    # Convert the two's complement representation to a hexadecimal string
+    hex_str = hex(twos_comp)[2:]
+
+    # Make sure the hexadecimal string has 8 digits (32 bits)
+    hex_str = hex_str.zfill(8)
+
+    return hex_str

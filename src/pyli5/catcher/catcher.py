@@ -10,6 +10,7 @@ from os import path
 from threading import Thread
 import sys
 from pyli5.utils.logger import Logger
+from pyli5.utils.identifers import tmsi_to_hex
 from pyli5.utils.time import get_time_no_ms
 import string
 import requests
@@ -48,7 +49,7 @@ class LogWatcher():
     def watch(self):
         f = open(self.log)
         try:
-            f.seek(path.getsize(f.name))  # go to EOF
+            #f.seek(path.getsize(f.name))  # go to EOF
             log = f
             while True:
                 line = log.readline()
@@ -57,7 +58,8 @@ class LogWatcher():
                     if m is not None:
                         typ, value = m.groups()
                         interception = Interception(type=typ, value=value)
-
+                        if typ == "TMSI":
+                            value = tmsi_to_hex(value)
                         self.logger.log(f" CATCHER - new association event {typ}={value}")
                         self.q.put(c=interception)
                 else:
