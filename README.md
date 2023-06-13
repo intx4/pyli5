@@ -1,5 +1,5 @@
 # pyli5 module
-Proof of concept for LI infrastructure in 5G SA Core. pyli5 is part of the [P3LI5](https://github.com/intx4/P3LI5) and provides the components to simulate a new protocol allowing privacy-preserving LI on 5G. pyli5 only supports modified message protocols to perform private LI. However it provides modules for parsing
+Proof of concept for LI infrastructure in 5G SA Core. pyli5 is part of the [P3LI5](https://github.com/intx4/P3LI5) and provides the components to simulate a new protocol allowing confidential LI on 5G. pyli5 only supports modified message protocols to perform private LI. However it provides modules for parsing
 X1 and H1 messages as per ETSI and 3GPP specifications (TS 133 127, TS 133 128, 103 221, 103 120) and can support ```LI_HI1, LI_HIQR. LI_XQR, LI_XEM and LI_XER``` interfaces.
 There is no current support for TLS.
 **Components are meant to be deployed using Docker following [P3LI5](https://github.com/intx4/P3LI5).**
